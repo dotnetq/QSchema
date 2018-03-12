@@ -2,19 +2,25 @@
 {
     public class QCharSchema : QSchema
     {
+        const string CharType = "c";
+
+        const string NullValue = "\" \"";
+
         public override string QType => "char";
 
-        public override string QCharType => "c";
-
-        public override string QNullValue => "\" \"";
-
         public override string QNotation(object o)
+        {
+            return ToQValue(o);
+        }
+
+        public static string ToQValue(object o)
         {
             if (o != null && o is char c)
             {
                 return $"\"{c}\"";
             }
-            return QNullValue;
+
+            return NullValue;
         }
     }
 }

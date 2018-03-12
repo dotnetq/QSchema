@@ -2,12 +2,21 @@
 {
     public class QRealSchema : QSchema
     {
+        const string CharType = "e";
+
+        const string NullValue = "0Ne";
+
         public override string QType => "real";
 
-        public override string QCharType => "e";
+        public override string QNotation(object o) => ToQValue(o);
 
-        public override string QNullValue => "0Ne";
-
-        public override string QNotation(object o) => QNotationImpl<float>(o);
+        public static string ToQValue(object o)
+        {
+            if (o != null && o is float value)
+            {
+                return $"{value}{CharType}";
+            }
+            return NullValue;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace QTools
         public static string DeclareEmptyTable(Type t)
         {
             var qTableName = GetQTableName(t);
-            var properties = t.GetProperties();
+            var properties = t.GetProperties(BindingFlags.Public|BindingFlags.Instance);
 
             string keyPropertyNames = null;
             var keyProperties = properties.Where(p => p.HasAttribute<KeyAttribute>());
@@ -86,15 +86,15 @@ namespace QTools
         readonly static QRealSchema QRealSchema = new QRealSchema();
         readonly static QFloatSchema QFloatSchema = new QFloatSchema();
         readonly static QDecimalSchema QDecimalSchema = new QDecimalSchema();
-        //readonly static QDateTimeSchema QDateTimeSchema = new QDateTimeSchema();
-        //readonly static QDateSchema QDateSchema = new QDateSchema();
-        //readonly static QTimeSchema QTimeSchema = new QTimeSchema();
-        //readonly static QSymbolSchema QSymbolSchema = new QSymbolSchema();
+        readonly static QDateTimeSchema QDateTimeSchema = new QDateTimeSchema();
+        readonly static QDateSchema QDateSchema = new QDateSchema();
+        readonly static QTimeSchema QTimeSchema = new QTimeSchema();
+        readonly static QTimeSpanSchema QTimeSpanSchema = new QTimeSpanSchema();
+        readonly static QSymbolSchema QSymbolSchema = new QSymbolSchema();
         readonly static QStringSchema QStringSchema = new QStringSchema();
 
         class Date { }
         class Time { }
-        class Symbol { }
         class String { }
         
         readonly static Dictionary<Type, QSchema> QTypeSchema = new Dictionary<Type, QSchema>
@@ -117,11 +117,13 @@ namespace QTools
             {typeof(double?), QFloatSchema },
             {typeof(decimal), QDecimalSchema },
             {typeof(decimal?), QDecimalSchema },
-            //{typeof(DateTime), QDateTimeSchema },
-            //{typeof(DateTime?), QDateTimeSchema },
-            //{typeof(Date), QDateSchema },
-            //{typeof(Time), QTimeSchema },
-            //{typeof(string), QSymbolSchema },
+            {typeof(DateTime), QDateTimeSchema },
+            {typeof(DateTime?), QDateTimeSchema },
+            {typeof(TimeSpan), QTimeSpanSchema },
+            {typeof(TimeSpan?), QTimeSpanSchema },
+            {typeof(Date), QDateSchema },
+            {typeof(Time), QTimeSchema },
+            {typeof(string), QSymbolSchema },
             {typeof(String), QStringSchema },
         };
 

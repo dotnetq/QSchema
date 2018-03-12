@@ -2,12 +2,21 @@
 {
     public class QLongSchema : QSchema
     {
+        const string CharType = "j";
+
+        const string NullValue = "0Nj";
+
         public override string QType => "long";
 
-        public override string QCharType => "j";
+        public override string QNotation(object o) => ToQValue(o);
 
-        public override string QNullValue => "0Nj";
-
-        public override string QNotation(object o) => QNotationImpl<long>(o);
+        public static string ToQValue(object o)
+        {
+            if (o != null && o is long value)
+            {
+                return $"{value}{CharType}";
+            }
+            return NullValue;
+        }
     }
 }

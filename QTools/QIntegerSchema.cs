@@ -2,12 +2,22 @@
 {
     public class QIntegerSchema : QSchema
     {
+        const string CharType = "i";
+
+        const string NullValue = "0Ni";
+
         public override string QType => "integer";
 
-        public override string QCharType => "i";
+        public override string QNotation(object o) => ToQValue(o);
 
-        public override string QNullValue => "0Ni";
+        public static string ToQValue(object o)
+        {
+            if (o != null && o is int value)
+            {
+                return $"{value}{CharType}";
+            }
 
-        public override string QNotation(object o) => QNotationImpl<int>(o);
+            return NullValue;
+        }
     }
 }
