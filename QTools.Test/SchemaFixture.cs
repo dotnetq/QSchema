@@ -13,7 +13,7 @@ namespace QTools.Test
             Assert.That(s.QNotation((bool?)null), Is.EqualTo("0b"));
             Assert.That(s.QNotation(true), Is.EqualTo("1b"));
             Assert.That(s.QNotation(false), Is.EqualTo("0b"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:b$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:boolean$()"));
         }
         [Test]
         public void TestQByte()
@@ -22,7 +22,7 @@ namespace QTools.Test
             Assert.That(s.QNotation((byte?)null), Is.EqualTo("0x00"));
             Assert.That(s.QNotation((byte)1), Is.EqualTo("0x01"));
             Assert.That(s.QNotation((byte)0), Is.EqualTo("0x00"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:x$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:byte$()"));
         }
         [Test]
         public void TestQShort()
@@ -31,16 +31,16 @@ namespace QTools.Test
             Assert.That(s.QNotation((short?)null), Is.EqualTo("0Nh"));
             Assert.That(s.QNotation((short)1), Is.EqualTo("1h"));
             Assert.That(s.QNotation((short)0), Is.EqualTo("0h"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:h$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:short$()"));
         }
         [Test]
-        public void TestQInteger()
+        public void TestQInt()
         {
-            var s = new QIntegerSchema();
+            var s = new QIntSchema();
             Assert.That(s.QNotation((int?)null), Is.EqualTo("0Ni"));
             Assert.That(s.QNotation(1), Is.EqualTo("1i"));
             Assert.That(s.QNotation(0), Is.EqualTo("0i"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:i$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:int$()"));
         }
         [Test]
         public void TestQLong()
@@ -49,7 +49,7 @@ namespace QTools.Test
             Assert.That(s.QNotation((long?)null), Is.EqualTo("0Nj"));
             Assert.That(s.QNotation((long)1), Is.EqualTo("1j"));
             Assert.That(s.QNotation((long)0), Is.EqualTo("0j"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:j$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:long$()"));
         }
         [Test]
         public void TestQReal()
@@ -58,7 +58,7 @@ namespace QTools.Test
             Assert.That(s.QNotation((float?)null), Is.EqualTo("0Ne"));
             Assert.That(s.QNotation((float)1), Is.EqualTo("1e"));
             Assert.That(s.QNotation((float)0), Is.EqualTo("0e"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:e$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:real$()"));
         }
         [Test]
         public void TestQFloat()
@@ -67,7 +67,7 @@ namespace QTools.Test
             Assert.That(s.QNotation((double?)null), Is.EqualTo("0n"));
             Assert.That(s.QNotation((double)1), Is.EqualTo("1"));
             Assert.That(s.QNotation((double)0), Is.EqualTo("0"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:f$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:float$()"));
         }
         [Test]
         public void TestQDecimal()
@@ -76,16 +76,15 @@ namespace QTools.Test
             Assert.That(s.QNotation((decimal?)null), Is.EqualTo("0n"));
             Assert.That(s.QNotation((decimal)1), Is.EqualTo("1"));
             Assert.That(s.QNotation((decimal)0), Is.EqualTo("0"));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:f$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:float$()"));
         }
         [Test]
         public void TestQString()
         {
             var s = new QStringSchema();
-            Assert.That(s.QNotation((string)null), Is.EqualTo(""));
+            Assert.That(s.QNotation((string)null), Is.EqualTo("\"\""));
             Assert.That(s.QNotation("1"), Is.EqualTo("\"1\""));
-            Assert.That(s.QNotation("0"), Is.EqualTo("\"0\""));
-            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:f$()"));
+            Assert.That(s.AsTableColumn("col"), Is.EqualTo("`col:string()"));
         }
     }
 }

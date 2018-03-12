@@ -11,6 +11,6 @@
         protected virtual bool IsAtom => true;
         protected virtual string ColumnType => IsAtom?string.Concat(QType, Cast):QType;
 
-        public string AsTableColumn(string name, string qAttributes = "") => string.Concat(qAttributes,(IsAtom?"`":""), name, ":", ColumnType, EmptyList);
+        public string AsTableColumn(string name, string qAttributes = "") => string.Concat(qAttributes, "`", name, ":", ColumnType, EmptyList);
     }
 }

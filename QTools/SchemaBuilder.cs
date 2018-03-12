@@ -81,7 +81,7 @@ namespace QTools
         readonly static QCharSchema QCharSchema = new QCharSchema();
         readonly static QByteSchema QByteSchema = new QByteSchema();
         readonly static QShortSchema QShortSchema = new QShortSchema();
-        readonly static QIntegerSchema QIntegerSchema = new QIntegerSchema();
+        readonly static QIntSchema QIntegerSchema = new QIntSchema();
         readonly static QLongSchema QLongSchema = new QLongSchema();
         readonly static QRealSchema QRealSchema = new QRealSchema();
         readonly static QFloatSchema QFloatSchema = new QFloatSchema();

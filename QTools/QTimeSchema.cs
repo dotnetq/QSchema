@@ -10,10 +10,6 @@ namespace QTools
 
         public override string QType => "`time$";
 
-        public override string QCharType => CharType;
-
-        public override string QNullValue => NullValue;
-
         public override string QNotation(object o)
         {
             return ToQValue(o);

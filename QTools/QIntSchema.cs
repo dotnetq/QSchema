@@ -1,12 +1,12 @@
 ﻿namespace QTools
 {
-    public class QIntegerSchema : QSchema
+    public class QIntSchema : QSchema
     {
         const string CharType = "i";
 
         const string NullValue = "0Ni";
 
-        public override string QType => "integer";
+        public override string QType => "int";
 
         public override string QNotation(object o) => ToQValue(o);
 
