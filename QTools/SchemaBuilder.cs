@@ -15,39 +15,31 @@ namespace QTools
 
             string keyPropertyNames = null;
             var keyProperties = properties.Where(p => p.HasAttribute<KeyAttribute>());
-            var bodyProperties = properties.Where(p => !p.HasAttribute<KeyAttribute>());
             if (keyProperties.Count() > 0)
             {
                 var keyPropertyTokens = new List<string>();
                 foreach(var keyProperty in keyProperties)
                 {
+                    var schemaAttribute = keyProperty.GetCustomAttribute<SchemaAttribute>();
                     var schemaType = GetQTypeSchema(keyProperty);
-                    string qField = schemaType.AsTableColumn(keyProperty.Name);
+                    string qField = schemaType.AsTableColumn(LeadingLowercase(keyProperty.Name), schemaAttribute?.InQ());
                     keyPropertyTokens.Add(qField);
                 }
 
                 keyPropertyNames = string.Join(";", keyPropertyTokens);
             }
-            else
-            {
-                var defaultKeyProperty = properties.First();
-                var schemaType = GetQTypeSchema(defaultKeyProperty);
-                string qField = schemaType.AsTableColumn(defaultKeyProperty.Name);
-                keyPropertyNames = qField;
-                bodyProperties = properties.Skip(1);
-            }
 
             var bodyList = new List<string>();
-            foreach (var bodyProperty in bodyProperties)
+            foreach (var bodyProperty in properties.Where(p => !p.HasAttribute<KeyAttribute>()))
             {
                 var schemaAttribute = bodyProperty.GetCustomAttribute<SchemaAttribute>();
-                bodyList.Add(GetQTypeSchema(bodyProperty).AsTableColumn(bodyProperty.Name, schemaAttribute?.InQ()));
+                bodyList.Add(GetQTypeSchema(bodyProperty).AsTableColumn(LeadingLowercase(bodyProperty.Name), schemaAttribute?.InQ()));
             }
 
             return string.Concat(qTableName, ":", "([", keyPropertyNames, "]",string.Join(";",bodyList),")");
         }
 
-        static QSchema GetQTypeSchema(MemberInfo info)
+        public static QSchema GetQTypeSchema(MemberInfo info)
         {
             Type dataType = null;
             if (info.HasAttribute<DateAttribute>())
@@ -77,25 +69,25 @@ namespace QTools
             return QTypeSchema[dataType];
         }
 
-        readonly static QBooleanSchema QBooleanSchema = new QBooleanSchema();
-        readonly static QCharSchema QCharSchema = new QCharSchema();
-        readonly static QByteSchema QByteSchema = new QByteSchema();
-        readonly static QShortSchema QShortSchema = new QShortSchema();
-        readonly static QIntSchema QIntegerSchema = new QIntSchema();
-        readonly static QLongSchema QLongSchema = new QLongSchema();
-        readonly static QRealSchema QRealSchema = new QRealSchema();
-        readonly static QFloatSchema QFloatSchema = new QFloatSchema();
-        readonly static QDecimalSchema QDecimalSchema = new QDecimalSchema();
-        readonly static QDateTimeSchema QDateTimeSchema = new QDateTimeSchema();
-        readonly static QDateSchema QDateSchema = new QDateSchema();
-        readonly static QTimeSchema QTimeSchema = new QTimeSchema();
-        readonly static QTimeSpanSchema QTimeSpanSchema = new QTimeSpanSchema();
-        readonly static QSymbolSchema QSymbolSchema = new QSymbolSchema();
-        readonly static QStringSchema QStringSchema = new QStringSchema();
+        private readonly static QBooleanSchema QBooleanSchema = new QBooleanSchema();
+        private readonly static QCharSchema QCharSchema = new QCharSchema();
+        private readonly static QByteSchema QByteSchema = new QByteSchema();
+        private readonly static QShortSchema QShortSchema = new QShortSchema();
+        private readonly static QIntSchema QIntegerSchema = new QIntSchema();
+        private readonly static QLongSchema QLongSchema = new QLongSchema();
+        private readonly static QRealSchema QRealSchema = new QRealSchema();
+        private readonly static QFloatSchema QFloatSchema = new QFloatSchema();
+        private readonly static QDecimalSchema QDecimalSchema = new QDecimalSchema();
+        private readonly static QDateTimeSchema QDateTimeSchema = new QDateTimeSchema();
+        private readonly static QDateSchema QDateSchema = new QDateSchema();
+        private readonly static QTimeSchema QTimeSchema = new QTimeSchema();
+        private readonly static QTimeSpanSchema QTimeSpanSchema = new QTimeSpanSchema();
+        private readonly static QSymbolSchema QSymbolSchema = new QSymbolSchema();
+        private readonly static QStringSchema QStringSchema = new QStringSchema();
 
-        class Date { }
-        class Time { }
-        class String { }
+        private class Date { }
+        private class Time { }
+        private class String { }
         
         readonly static Dictionary<Type, QSchema> QTypeSchema = new Dictionary<Type, QSchema>
         {

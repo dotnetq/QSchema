@@ -8,20 +8,21 @@ namespace QTools
 
         const string NullValue = "0Nz";
 
-        public override string QType => "`datetime$";
+        public override string QType => "datetime";
 
         public override string QNotation(object o)
         {
             return ToQValue(o);
         }
 
-        internal const string QDateTimeFormat = QDateSchema.QDateFormat + "'T'" + QTimeSchema.QTimeFormat;
+        // TimeSpan & DateTime formatting not compatible
+        internal const string DateTimeFormat = QDateSchema.DateFormat + "'T'" + "HH':'mm':'ss'.'fff"; 
 
         public static string ToQValue(object o)
         {
             if (o != null && o is DateTime value)
             {
-                return value.ToString(QDateTimeFormat);
+                return value.ToString(DateTimeFormat);
             }
 
             return NullValue;

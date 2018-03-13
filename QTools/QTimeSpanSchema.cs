@@ -8,7 +8,7 @@ namespace QTools
 
         const string NullValue = "0Nn";
 
-        public override string QType => "`timespan$";
+        public override string QType => "timespan";
 
         public override string QNotation(object o) => ToQValue(o);
         

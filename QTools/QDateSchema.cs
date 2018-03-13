@@ -8,20 +8,20 @@ namespace QTools
 
         const string NullValue = "0Nd";
 
-        public override string QType => "`date$";
+        public override string QType => "date";
 
         public override string QNotation(object o)
         {
             return ToQValue(o);
         }
 
-        internal const string QDateFormat = "yyyy'.'MM'.'dd";
+        internal const string DateFormat = "yyyy'.'MM'.'dd";
 
         public static string ToQValue(object o)
         {
             if (o != null && o is DateTime value)
             {
-                return value.ToString(QDateFormat);
+                return value.ToString(DateFormat);
             }
 
             return NullValue;
