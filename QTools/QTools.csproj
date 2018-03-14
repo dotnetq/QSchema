@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net471;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseUrl>https://github.com/machonky/qtools/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/machonky/qtools</PackageProjectUrl>
@@ -9,6 +9,8 @@
     <Company>MacRobert.com</Company>
     <Authors>dev@macrobert.com</Authors>
     <Description>Create kdb schema directly from C# data models.</Description>
+    <Version>1.0.1</Version>
+    <Copyright>macrobert.com</Copyright>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -22,8 +22,11 @@ namespace QTools
                 {
                     var schemaAttribute = keyProperty.GetCustomAttribute<SchemaAttribute>();
                     var schemaType = GetQTypeSchema(keyProperty);
-                    string qField = schemaType.AsTableColumn(LeadingLowercase(keyProperty.Name), schemaAttribute?.InQ());
-                    keyPropertyTokens.Add(qField);
+                    if (schemaType != null)
+                    {
+                        string qField = schemaType.AsTableColumn(LeadingLowercase(keyProperty.Name), schemaAttribute?.InQ());
+                        keyPropertyTokens.Add(qField);
+                    }
                 }
 
                 keyPropertyNames = string.Join(";", keyPropertyTokens);
@@ -32,8 +35,12 @@ namespace QTools
             var bodyList = new List<string>();
             foreach (var bodyProperty in properties.Where(p => !p.HasAttribute<KeyAttribute>()))
             {
-                var schemaAttribute = bodyProperty.GetCustomAttribute<SchemaAttribute>();
-                bodyList.Add(GetQTypeSchema(bodyProperty).AsTableColumn(LeadingLowercase(bodyProperty.Name), schemaAttribute?.InQ()));
+                var schemaType = GetQTypeSchema(bodyProperty);
+                if (schemaType != null)
+                {
+                    var schemaAttribute = bodyProperty.GetCustomAttribute<SchemaAttribute>();
+                    bodyList.Add(schemaType.AsTableColumn(LeadingLowercase(bodyProperty.Name), schemaAttribute?.InQ()));
+                }
             }
 
             return string.Concat(qTableName, ":", "([", keyPropertyNames, "]",string.Join(";",bodyList),")");
@@ -66,7 +73,12 @@ namespace QTools
                 }
             }
 
-            return QTypeSchema[dataType];
+            QSchema result;
+            if (QTypeSchema.TryGetValue(dataType, out result))
+            {
+                return result;
+            }
+            return null;
         }
 
         private readonly static QBooleanSchema QBooleanSchema = new QBooleanSchema();

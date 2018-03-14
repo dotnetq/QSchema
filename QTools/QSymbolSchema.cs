@@ -8,9 +8,9 @@
 
         public override string QType => "symbol";
 
-        public override string QNotation(object o) => ToQString(o);
+        public override string QNotation(object o) => ToQValue(o);
 
-        public static string ToQString(object o)
+        public static string ToQValue(object o)
         {
             if (o != null && o is string value)
             {
