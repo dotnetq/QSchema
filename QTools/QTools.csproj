@@ -13,8 +13,4 @@
     <Copyright>macrobert.com</Copyright>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y $(ProjectDir)$(OutDir)$(TargetFileName) $(SolutionDir)lib\" />
-  </Target>
-
 </Project>

@@ -14,7 +14,7 @@ namespace QTools
             var properties = t.GetProperties(BindingFlags.Public|BindingFlags.Instance);
 
             string keyPropertyNames = null;
-            var keyProperties = properties.Where(p => p.HasAttribute<KeyAttribute>());
+            var keyProperties = properties.Where(p => !p.HasAttribute<IgnoreAttribute>() && p.HasAttribute<KeyAttribute>());
             if (keyProperties.Count() > 0)
             {
                 var keyPropertyTokens = new List<string>();
@@ -33,7 +33,7 @@ namespace QTools
             }
 
             var bodyList = new List<string>();
-            foreach (var bodyProperty in properties.Where(p => !p.HasAttribute<KeyAttribute>()))
+            foreach (var bodyProperty in properties.Where(p => !p.HasAttribute<IgnoreAttribute>() && !p.HasAttribute<KeyAttribute>()))
             {
                 var schemaType = GetQTypeSchema(bodyProperty);
                 if (schemaType != null)
