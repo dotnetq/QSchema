@@ -19,10 +19,19 @@ namespace QTools
 
         public static string ToQValue(object o)
         {
-            if (o != null && o is TimeSpan value)
+            if (o != null)
             {
-                return value.ToString(TimeFormat);
+                if (o is DateTime dateValue)
+                {
+                    o = dateValue.TimeOfDay;
+                }
+
+                if (o is TimeSpan value)
+                {
+                    return value.ToString(TimeFormat);
+                }
             }
+
             return NullValue;
         }
     }

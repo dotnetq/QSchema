@@ -37,6 +37,8 @@ namespace QTools.Test
             public DateTime DateProp { get; set; }
             [Time] // Adding the attribute forces a q-time instead of a q-timespan.
             public TimeSpan TimeProp { get; set; }
+            [Time]  // Adding the attribute forces a q-time
+            public DateTime DateTimeAsTimeProp { get; set; }
             public string SymbolProp { get; set; }
             [String] // Adding the attribute forces a q-string instead of a q-symbol.
             public string StringProp { get; set; }
@@ -71,6 +73,7 @@ namespace QTools.Test
             ";nullTimeSpanProp:`timespan$()" +
             ";dateProp:`date$()" +
             ";timeProp:`time$()" +
+            ";dateTimeAsTimeProp:`time()" +
             ";symbolProp:`symbol$()" +
             ";stringProp:string()" +
             ")";
