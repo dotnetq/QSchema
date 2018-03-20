@@ -101,7 +101,7 @@ namespace QTools
         private class Time { }
         private class String { }
         
-        readonly static Dictionary<Type, QSchema> QTypeSchema = new Dictionary<Type, QSchema>
+        protected readonly static Dictionary<Type, QSchema> QTypeSchema = new Dictionary<Type, QSchema>
         {
             {typeof(bool), QBooleanSchema },
             {typeof(bool?), QBooleanSchema },
