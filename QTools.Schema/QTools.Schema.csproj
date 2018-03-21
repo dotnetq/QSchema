@@ -8,20 +8,12 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Company>MacRobert.com</Company>
     <Authors>dev@macrobert.com</Authors>
-    <Description>Create kdb schema directly from C# data models.</Description>
+    <Description>Create kdb schema directly from C# data models. Separate Schema attributes from main package to reduce coupling</Description>
     <Version>1.0.4</Version>
     <Copyright>macrobert.com</Copyright>
     <AssemblyVersion>1.0.4.0</AssemblyVersion>
     <FileVersion>1.0.4.0</FileVersion>
     <PackageReleaseNotes>Make SchemaBuilder extensible</PackageReleaseNotes>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="QTools.Schema" Version="1.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\QTools.Schema\QTools.Schema.csproj" />
-  </ItemGroup>
 
 </Project>

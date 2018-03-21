@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QTools", "QTools\QTools.csproj", "{8410FBE6-7516-4271-86F4-43D15F5E7E3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QTools", "QTools\QTools.csproj", "{8410FBE6-7516-4271-86F4-43D15F5E7E3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QTools.Test", "QTools.Test\QTools.Test.csproj", "{B4654B43-D93B-4BAD-A296-5B8A7054F231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QTools.Schema", "QTools.Schema\QTools.Schema.csproj", "{B8B8C755-5356-40CB-8F5D-49E40F7F7908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B4654B43-D93B-4BAD-A296-5B8A7054F231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4654B43-D93B-4BAD-A296-5B8A7054F231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4654B43-D93B-4BAD-A296-5B8A7054F231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B8C755-5356-40CB-8F5D-49E40F7F7908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B8C755-5356-40CB-8F5D-49E40F7F7908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B8C755-5356-40CB-8F5D-49E40F7F7908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B8C755-5356-40CB-8F5D-49E40F7F7908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

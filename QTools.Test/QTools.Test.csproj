@@ -53,6 +53,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QTools.Schema\QTools.Schema.csproj">
+      <Project>{b8b8c755-5356-40cb-8f5d-49e40f7f7908}</Project>
+      <Name>QTools.Schema</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QTools\QTools.csproj">
       <Project>{8410fbe6-7516-4271-86f4-43d15f5e7e3a}</Project>
       <Name>QTools</Name>
