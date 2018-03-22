@@ -9,10 +9,10 @@
     <Company>MacRobert.com</Company>
     <Authors>dev@macrobert.com</Authors>
     <Description>Create kdb schema directly from C# data models. Separate Schema attributes from main package to reduce coupling</Description>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Copyright>macrobert.com</Copyright>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
+    <FileVersion>1.0.5.0</FileVersion>
     <PackageReleaseNotes>Make SchemaBuilder extensible</PackageReleaseNotes>
   </PropertyGroup>
 
