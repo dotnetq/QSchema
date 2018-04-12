@@ -15,7 +15,7 @@ Install the [NuGet package](https://www.nuget.org/packages/qtools).
 > ### DISCLAIMER
 > **IMPORTANT:** The current state of this toolkit is **PRE-ALPHA/Development**. Please consider it version a foundational version. Many areas could be improved and change significantly while refactoring current code and implementing new features. 
 
-## Example
+## Basic Example
 
 We'll build a basic security model to restrict access to specific resources in our system.
 
@@ -109,23 +109,23 @@ namespace Acl
 
 Next we define a collection of the types involved in the entire schema as shown:
 ```cs
-	var types = new[] 
-	{
-		typeof(Auth.User),
-		typeof(Auth.LoginInfo),
-		typeof(Acl.Principal),
-		typeof(Acl.UserPrincipal),
-		typeof(Acl.Operation),
-		typeof(Acl.Resource),
-		typeof(Acl.ResourceGrantAcl),
-		typeof(Acl.ResourceDenyAcl),
-	};
+var types = new[] 
+{
+	typeof(Auth.User),
+	typeof(Auth.LoginInfo),
+	typeof(Acl.Principal),
+	typeof(Acl.UserPrincipal),
+	typeof(Acl.Operation),
+	typeof(Acl.Resource),
+	typeof(Acl.ResourceGrantAcl),
+	typeof(Acl.ResourceDenyAcl),
+};
 ```
 
-After this we can supply the collection above to the schema builder which whill generate the entire script for an empty kdb+ database including foreign key relationships.
+After this we can supply the collection above to the schema builder which will generate the entire script for an empty kdb+ database including foreign key relationships.
 
 ```cs
-	var fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
+var fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
 ```
 
 This will yield a script in 'q' syntax for the empty database as shown:
