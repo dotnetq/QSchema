@@ -150,3 +150,7 @@ update operation:`.acl.operation$() from `.acl.resourceDenyAcl
 ```
 
 Using the 'q' ```meta``` function will verify all the types and relationships.
+
+## Notes
+
+To populate the tables easily from .net objects take a look at [Qapper](https://github.com/machonky/Qapper)
