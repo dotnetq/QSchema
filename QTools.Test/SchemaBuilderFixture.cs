@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using QTools.Schema;
 using System;
+using Test;
 
 namespace QTools.Test
 {
@@ -73,7 +74,7 @@ namespace QTools.Test
             ";nullTimeSpanProp:`timespan$()" +
             ";dateProp:`date$()" +
             ";timeProp:`time$()" +
-            ";dateTimeAsTimeProp:`time()" +
+            ";dateTimeAsTimeProp:`time$()" +
             ";symbolProp:`symbol$()" +
             ";stringProp:string()" +
             ")";
@@ -117,5 +118,58 @@ namespace QTools.Test
             var declaration = SchemaBuilder.DeclareEmptyTable(typeof(QAttributeTestEntity));
             Assert.That(declaration, Is.EqualTo(QAttributeTestResult));
         }
+
+        const string SchemaDefinition =
+@".test.region:([`u#id:`symbol$()]`u#code:`symbol$();name:`symbol$())
+.test.currency:([`u#id:`symbol$()]`u#iso:`symbol$();name:`symbol$();valuePrecision:`int$())
+.test.country:([`u#id:`symbol$()]`u#iso2:`symbol$();`u#iso3:`symbol$();name:`symbol$();region:`symbol$();currency:`symbol$())
+update region:`.test.region$() from `.test.country
+update currency:`.test.currency$() from `.test.country
+";
+
+        [Test]
+        public void TestForeignKeyedSchema()
+        {
+            var types = new[] { typeof(Country),typeof(Currency), typeof(Region), };
+            var result = SchemaBuilder.DeclareEmptySchema(types);
+            Assert.That(result, Is.EqualTo(SchemaDefinition));
+        }
+    }
+}
+
+namespace Test
+{
+    public class Region
+    {
+        [Key, Unique]
+        public string Id { get; set; }
+        [Unique]
+        public string Code { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class Country
+    {
+        [Key, Unique]
+        public string Id { get; set; }
+        [Unique]
+        public string Iso2 { get; set; }
+        [Unique]
+        public string Iso3 { get; set; }
+        public string Name { get; set; }
+        [ForeignKey(typeof(Region)), Grouped]
+        public string Region { get; set; }
+        [ForeignKey(typeof(Currency))]
+        public string Currency { get; set; }
+    }
+
+    public class Currency
+    {
+        [Key, Unique]
+        public string Id { get; set; }
+        [Unique]
+        public string Iso { get; set; }
+        public string Name { get; set; }
+        public int ValuePrecision { get; set; }
     }
 }

@@ -9,15 +9,16 @@
     <Company>MacRobert.com</Company>
     <Authors>dev@macrobert.com</Authors>
     <Description>Create kdb schema directly from C# data models.</Description>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Copyright>macrobert.com</Copyright>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
-    <PackageReleaseNotes>Make SchemaBuilder extensible</PackageReleaseNotes>
+    <AssemblyVersion>1.0.6.0</AssemblyVersion>
+    <FileVersion>1.0.6.0</FileVersion>
+    <PackageReleaseNotes>Formal foreign key support - as long as the dependencies can be mapped as a DAG</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="QTools.Schema" Version="1.0.5" />
+    <PackageReference Include="TopologicalSorting.netstandard" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
