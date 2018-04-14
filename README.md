@@ -109,6 +109,7 @@ namespace Acl
 
 Next we define a collection of the types involved in the entire schema as shown:
 ```cs
+// input types can be added in any order. They are sorted by dependency later
 var types = new[] 
 {
 	typeof(Auth.User),
