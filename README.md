@@ -130,10 +130,11 @@ var types = new[]
 After this we can supply the collection above to the schema builder which will generate the entire script for an empty kdb+ database including foreign key relationships.
 
 ```cs
-var fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
+string fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
 ```
 
-This will yield a script in 'q' syntax for the empty database as shown:
+The variable ```fullAclSchema``` will contain a script in 'q' syntax for the empty database as shown:
+
 ```
 .auth.user:([id:`symbol$()]`u#login:`symbol$();name:`symbol$();description:`symbol$())
 .acl.principal:([id:`symbol$()]`u#name:`symbol$())
