@@ -19,7 +19,13 @@ Install the [NuGet package](https://www.nuget.org/packages/qtools).
 
 We'll build a basic security model to restrict access to specific resources in our system.
 
-First we'll create some classes to represent the authentication aspect of our security model.
+Next we'll create some classes to represent the authentication aspect of our security model. We'll be using some attributes declared in the ```QTools.Schema``` namespace to declare metadata of our property to our schema builder - as shown:
+
+```cs
+using QTools.Schema;
+```
+
+Note the attributes applied to properties of classes declared below.
 
 ```cs
 namespace Auth
@@ -32,6 +38,9 @@ namespace Auth
         public string Login { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+	
+        // We'll store the various roles when we deserialize
+        [Ignore] public string[] PrincipalIds { get; set; }	
     }
 
     public class LoginInfo
@@ -46,7 +55,7 @@ namespace Auth
 }
 ```
 
-Lets add some classes to support implementation of our Access Control List
+Lets add some classes to support implementation of our Access Control List.
 
 ```cs
 namespace Acl
@@ -57,7 +66,6 @@ namespace Acl
         public string Id { get; set; }
         [Unique]
         public string Name { get; set; }
-        public string Explanation { get; set; }
     }
 
     public class UserPrincipal
@@ -67,14 +75,13 @@ namespace Acl
         [ForeignKey(typeof(Principal))]
         public string Principal { get; set; }
     }
-    
+
     public class Operation
     {
         [Key]
         public string Id { get; set; }
         [Unique]
         public string Name { get; set; }
-        public string Explanation { get; set; }
     }
 
     public class Resource
@@ -82,10 +89,9 @@ namespace Acl
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
     }
 
-    public class ResourceGrantAcl
+    public class ResourceAcl
     {
         [ForeignKey(typeof(Resource))]
         public string Resource { get; set; }
@@ -95,15 +101,11 @@ namespace Acl
         public string Operation { get; set; }
     }
 
-    public class ResourceDenyAcl
-    {
-        [ForeignKey(typeof(Resource))]
-        public string Resource { get; set; }
-        [ForeignKey(typeof(Principal))]
-        public string Principal { get; set; }
-        [ForeignKey(typeof(Operation))]
-        public string Operation { get; set; }
-    }
+    public class GrantResourceAcl : ResourceAcl
+    { }
+
+    public class DenyResourceAcl : ResourceAcl
+    { }
 }
 ```
 
@@ -118,8 +120,8 @@ var types = new[]
 	typeof(Acl.UserPrincipal),
 	typeof(Acl.Operation),
 	typeof(Acl.Resource),
-	typeof(Acl.ResourceGrantAcl),
-	typeof(Acl.ResourceDenyAcl),
+	typeof(Acl.GrantResourceAcl),
+	typeof(Acl.DenyResourceAcl),
 };
 ```
 
@@ -132,26 +134,31 @@ var fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
 This will yield a script in 'q' syntax for the empty database as shown:
 ```
 .auth.user:([id:`symbol$()]`u#login:`symbol$();name:`symbol$();description:`symbol$())
-.acl.principal:([id:`symbol$()]`u#name:`symbol$();explanation:`symbol$())
-.acl.operation:([id:`symbol$()]`u#name:`symbol$();explanation:`symbol$())
-.acl.resource:([id:`symbol$()]name:`symbol$();description:`symbol$())
+.acl.principal:([id:`symbol$()]`u#name:`symbol$())
+.acl.operation:([id:`symbol$()]`u#name:`symbol$())
+.acl.resource:([id:`symbol$()]name:`symbol$())
 .auth.loginInfo:([id:`symbol$()]`u#user:`symbol$();hash:`symbol$();salt:`symbol$())
 .acl.userPrincipal:([]user:`symbol$();principal:`symbol$())
-.acl.resourceGrantAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
-.acl.resourceDenyAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
+.acl.grantResourceAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
+.acl.denyResourceAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
 update user:`.auth.user$() from `.auth.loginInfo
 update user:`.auth.user$() from `.acl.userPrincipal
 update principal:`.acl.principal$() from `.acl.userPrincipal
-update resource:`.acl.resource$() from `.acl.resourceGrantAcl
-update principal:`.acl.principal$() from `.acl.resourceGrantAcl
-update operation:`.acl.operation$() from `.acl.resourceGrantAcl
-update resource:`.acl.resource$() from `.acl.resourceDenyAcl
-update principal:`.acl.principal$() from `.acl.resourceDenyAcl
-update operation:`.acl.operation$() from `.acl.resourceDenyAcl
+update resource:`.acl.resource$() from `.acl.grantResourceAcl
+update principal:`.acl.principal$() from `.acl.grantResourceAcl
+update operation:`.acl.operation$() from `.acl.grantResourceAcl
+update resource:`.acl.resource$() from `.acl.denyResourceAcl
+update principal:`.acl.principal$() from `.acl.denyResourceAcl
+update operation:`.acl.operation$() from `.acl.denyResourceAcl
 ```
+
+## Notes
+- Namespaces are preserved in lowercase. 
+- Table names correspond to class names with a leading lowercase letter.
+- Tables are declared in dependency order.
 
 Using the 'q' ```meta``` function will verify all the types and relationships.
 
 ## Next Steps
 
-To populate the tables easily from .net objects take a look at [Qapper](https://github.com/machonky/Qapper)
+To populate and retreive data from the tables from .net objects take a look at [Qapper](https://github.com/machonky/Qapper)
