@@ -6,6 +6,9 @@
 [![GitHub forks](https://img.shields.io/github/forks/machonky/QTools.svg?style=social&label=Fork)](https://github.com/machonky/QTools/network)
 [![GitHub stars](https://img.shields.io/github/stars/machonky/QTools.svg?style=social&label=Star)](https://github.com/machonky/QTools/stargazers)
 
+> ### DISCLAIMER
+> **IMPORTANT:** The current state of this toolkit is **PRE-ALPHA/Development**. Please consider it version a foundational version. Many areas could be improved and change significantly while refactoring current code and implementing new features. 
+
 ## Introduction
 QTools permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
 
@@ -13,9 +16,6 @@ A developer can rapidly develop and prototype an entire schema declaratively fro
 
 ## Getting Started
 Install the [NuGet package](https://www.nuget.org/packages/qtools).
-
-> ### DISCLAIMER
-> **IMPORTANT:** The current state of this toolkit is **PRE-ALPHA/Development**. Please consider it version a foundational version. Many areas could be improved and change significantly while refactoring current code and implementing new features. 
 
 ## Basic Example
 
