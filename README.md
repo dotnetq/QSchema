@@ -7,7 +7,8 @@
 [![GitHub stars](https://img.shields.io/github/stars/machonky/QTools.svg?style=social&label=Star)](https://github.com/machonky/QTools/stargazers)
 
 ## Introduction
-QTools permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database.
+QTools permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
+A developer can rapidly develop and prototype an entire schema declaratively, from the .net environment. Without QTools a developer must develop the schema twice - once in the .net environment and again in the kdb+ 'q' language.
 
 ## Getting Started
 Install the [NuGet package](https://www.nuget.org/packages/qtools).
@@ -155,7 +156,9 @@ update operation:`.acl.operation$() from `.acl.denyResourceAcl
 ## Notes
 - Namespaces are preserved in lowercase. 
 - Table names correspond to class names with a leading lowercase letter.
+- In the script above, the update statements establish the foreign key relationships.
 - Tables are declared in dependency order.
+- Only simple foreign keys are supported
 
 Using the 'q' ```meta``` function will verify all the types and relationships.
 
