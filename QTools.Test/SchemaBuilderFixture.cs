@@ -122,9 +122,7 @@ namespace QTools.Test
         const string SchemaDefinition =
 @".test.region:([`u#id:`symbol$()]`u#code:`symbol$();name:`symbol$())
 .test.currency:([`u#id:`symbol$()]`u#iso:`symbol$();name:`symbol$();valuePrecision:`int$())
-.test.country:([`u#id:`symbol$()]`u#iso2:`symbol$();`u#iso3:`symbol$();name:`symbol$();region:`symbol$();currency:`symbol$())
-update region:`.test.region$() from `.test.country
-update currency:`.test.currency$() from `.test.country
+.test.country:([`u#id:`symbol$()]`u#iso2:`symbol$();`u#iso3:`symbol$();name:`symbol$();region:`.test.region$();currency:`.test.currency$())
 ";
 
         [Test]
@@ -133,6 +131,18 @@ update currency:`.test.currency$() from `.test.country
             var types = new[] { typeof(Country),typeof(Currency), typeof(Region), };
             var result = SchemaBuilder.DeclareEmptySchema(types);
             Assert.That(result, Is.EqualTo(SchemaDefinition));
+        }
+
+        public class InvalidColumnNameTest
+        {
+            public bool Type { get; set; }
+        }
+
+        [Test]
+        public void TestInvalidColumnName()
+        {
+            Assert.That(() => { SchemaBuilder.DeclareEmptyTable(typeof(InvalidColumnNameTest)); }, 
+                Throws.InstanceOf<SchemaBuilder.InvalidColumnNameException>());
         }
     }
 }

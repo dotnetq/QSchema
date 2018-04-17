@@ -7,13 +7,13 @@
     <PackageProjectUrl>https://github.com/machonky/qtools</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Company>MacRobert.com</Company>
-    <Authors>dev@macrobert.com</Authors>
+    <Authors>Martin MacRobert (dev@macrobert.com)</Authors>
     <Description>Create kdb schema directly from C# data models. Separate Schema attributes from main package to reduce coupling</Description>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <Copyright>macrobert.com</Copyright>
-    <AssemblyVersion>1.0.5.0</AssemblyVersion>
-    <FileVersion>1.0.5.0</FileVersion>
-    <PackageReleaseNotes>Make SchemaBuilder extensible</PackageReleaseNotes>
+    <AssemblyVersion>1.0.7.0</AssemblyVersion>
+    <FileVersion>1.0.7.0</FileVersion>
+    <PackageReleaseNotes>CircularKey, ColName added</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

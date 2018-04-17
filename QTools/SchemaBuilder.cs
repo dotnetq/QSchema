@@ -13,30 +13,30 @@ namespace QTools
         public static string DeclareEmptyTable(Type t)
         {
             var qTableName = GetQTableName(t);
-            var properties = t.GetProperties(BindingFlags.Public|BindingFlags.Instance);
+            var properties = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             string keyPropertyNames = null;
             var keyProperties = properties.Where(p => !p.HasAttribute<IgnoreAttribute>() && p.HasAttribute<KeyAttribute>());
             if (keyProperties.Count() > 0)
             {
                 var keyPropertyTokens = new List<string>();
-                foreach(var keyProperty in keyProperties)
+                foreach (var keyProperty in keyProperties)
                 {
-                    var foreignKeyAttribute = keyProperty.GetCustomAttribute<ForeignKeyAttribute>();
+                    var foreignKey = keyProperty.GetCustomAttribute<ForeignKeyAttribute>();
                     var schemaAttribute = keyProperty.GetCustomAttribute<SchemaAttribute>();
-                    if (foreignKeyAttribute == null)
+                    if (foreignKey == null)
                     {
                         var schemaType = GetQTypeSchema(keyProperty);
                         if (schemaType != null)
                         {
-                            var qField = schemaType.AsTableColumn(LeadingLowercase(keyProperty.Name), schemaAttribute?.InQ());
+                            var qField = schemaType.AsTableColumn(VerifyColumnName(keyProperty), schemaAttribute?.InQ());
                             keyPropertyTokens.Add(qField);
                         }
                     }
                     else
                     {
-                        var tableName = GetQTableName(foreignKeyAttribute.ForeignType);
-                        var qField = string.Concat(schemaAttribute?.InQ(), tableName, ":", "`", QSchema.EmptyList);
+                        var tableName = GetQTableName(foreignKey.ForeignType);
+                        var qField = string.Concat(schemaAttribute?.InQ(), tableName, ":`", tableName, QSchema.Cast, QSchema.EmptyList);
                         keyPropertyTokens.Add(qField);
                     }
                 }
@@ -47,16 +47,45 @@ namespace QTools
             var bodyList = new List<string>();
             foreach (var bodyProperty in properties.Where(p => !p.HasAttribute<IgnoreAttribute>() && !p.HasAttribute<KeyAttribute>()))
             {
-                var foreignKeyAttribute = bodyProperty.GetCustomAttribute<ForeignKeyAttribute>();
-                var schemaType = GetQTypeSchema(bodyProperty);
-                if (schemaType != null)
+                var foreignKey = bodyProperty.GetCustomAttribute<ForeignKeyAttribute>();
+                if (foreignKey == null)
                 {
-                    var schemaAttribute = bodyProperty.GetCustomAttribute<SchemaAttribute>();
-                    bodyList.Add(schemaType.AsTableColumn(LeadingLowercase(bodyProperty.Name), schemaAttribute?.InQ()));
+                    var schemaType = GetQTypeSchema(bodyProperty);
+                    if (schemaType != null)
+                    {
+                        var schemaAttribute = bodyProperty.GetCustomAttribute<SchemaAttribute>();
+                        bodyList.Add(schemaType.AsTableColumn(VerifyColumnName(bodyProperty), schemaAttribute?.InQ()));
+                    }
+                }
+                else
+                {
+                    bodyList.Add(string.Concat(VerifyColumnName(bodyProperty), ":`",
+                        GetQTableName(foreignKey.ForeignType), QSchema.Cast, QSchema.EmptyList));
                 }
             }
 
-            return string.Concat(qTableName, ":", "([", keyPropertyNames, "]",string.Join(";",bodyList),")");
+            return string.Concat(qTableName, ":", "([", keyPropertyNames, "]", string.Join(";", bodyList), ")");
+        }
+
+        public class InvalidColumnNameException : Exception
+        {
+            public InvalidColumnNameException(MemberInfo info)
+                : base($"{info.DeclaringType}, {info.Name} will create an invalid column name.")
+            {
+                Info = info;
+            }
+
+            public MemberInfo Info { get; }
+        }
+
+        private static string VerifyColumnName(MemberInfo info)
+        {
+            var overrideColName = info.GetCustomAttribute<ColNameAttribute>();
+            var result = overrideColName != null ? overrideColName.Name : LeadingLowercase(info.Name);
+
+            if (reservedWords.Contains(result)) throw new InvalidColumnNameException(info);
+
+            return result;
         }
 
         private static readonly BindingFlags BindingFlags = BindingFlags.Public | BindingFlags.Instance;
@@ -86,29 +115,11 @@ namespace QTools
                 }
             }
 
-            // Topological sort is overkill if we declare FK's after tables, 
-            // but essential if they are part of the initial declaration
+            // Output tables in dependency order
             var sortResult = graph.CalculateSort();
             foreach(OrderedProcess<Type> process in sortResult)
             {
                 result.AppendLine(DeclareEmptyTable(process.Value));
-            }
-
-            foreach(var depTable in dependentTables)
-            {
-                var properties = depTable.GetProperties(BindingFlags);
-                foreach (var prop in properties)
-                {
-                    var foreignKey = prop.GetCustomAttribute<ForeignKeyAttribute>();
-                    if (foreignKey != null)
-                    {
-                        var updateLine = string.Concat(
-                            "update ", LeadingLowercase(prop.Name), ":`",
-                            GetQTableName(foreignKey.ForeignType),QSchema.Cast,QSchema.EmptyList, 
-                            " from `", GetQTableName(depTable));
-                        result.AppendLine(updateLine);
-                    }
-                }
             }
 
             return result.ToString();
@@ -207,6 +218,32 @@ namespace QTools
         }
 
         private static string LeadingLowercase(string s) => string.Concat(s[0].ToString().ToLower(), s.Substring(1));
+
+        private static readonly HashSet<string> reservedWords = new HashSet<string>
+        {
+            "abs", "acos", "aj", "aj0", "all", "and", "any", "asc", "asin", "asof", "atan", "attr", "avg", "avgs",
+            "bin", "binr",
+            "ceiling", "cols", "cor", "cos", "count", "cov", "cross", "csv", "cut",
+            "delete", "deltas", "desc", "dev", "differ", "distinct", "div", "do", "dsave",
+            "each", "ej", "ema", "enlist", "eval", "except", "exec", "exit", "exp",
+            "fby", "fills", "first", "fkeys", "flip", "floor",
+            "get", "getenv", "group", "gtime",
+            "hclose", "hcount", "hdel", "hopen", "hsym",
+            "iasc", "idesc", "if", "ij", "in", "insert", "inter", "inv",
+            "key", "keys",
+            "last", "like", "lj", "ljf", "load", "log", "lower", "lsq", "ltime", "ltrim",
+            "mavg", "max", "maxs", "mcount", "md5", "mdev", "med", "meta", "min", "mins", "mmax", "mmin", "mmu", "mod", "msum",
+            "neg", "next", "not", "null",
+            "or", "over",
+            "parse", "peach", "pj", "plist", "prd", "prds", "prev", "prior",
+            "rand", "rank", "ratios", "raze", "read0", "read1", "reciprocal", "reval", "reverse", "rload", "rotate", "rsave", "rtrim",
+            "save", "scan", "scov", "sdev", "select", "set", "setenv", "show", "signum", "sin", "sqrt", "ss", "ssr", "string", "sublist", "sum", "sums", "sv", "svar", "system",
+            "tables", "tan", "til", "trim", "txf", "type",
+            "uj", "ungroup", "union", "update", "upper", "upsert",
+            "value", "var", "view", "views", "vs",
+            "wavg", "where", "while", "within", "wj", "wj1", "wsum", "ww",
+            "xasc", "xbar", "xcol", "xcols", "xdesc", "xexp", "xgroup", "xkey", "xlog", "xprev", "xrank",
+        };
     }
 
     internal class ObjectFactoryCache<KeyT, ValueT>
