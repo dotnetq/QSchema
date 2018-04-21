@@ -140,19 +140,10 @@ The variable ```fullAclSchema``` will contain a script in 'q' syntax for the emp
 .acl.principal:([id:`symbol$()]`u#name:`symbol$())
 .acl.operation:([id:`symbol$()]`u#name:`symbol$())
 .acl.resource:([id:`symbol$()]name:`symbol$())
-.auth.loginInfo:([id:`symbol$()]`u#user:`symbol$();hash:`symbol$();salt:`symbol$())
-.acl.userPrincipal:([]user:`symbol$();principal:`symbol$())
-.acl.grantResourceAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
-.acl.denyResourceAcl:([]resource:`symbol$();principal:`symbol$();operation:`symbol$())
-update user:`.auth.user$() from `.auth.loginInfo
-update user:`.auth.user$() from `.acl.userPrincipal
-update principal:`.acl.principal$() from `.acl.userPrincipal
-update resource:`.acl.resource$() from `.acl.grantResourceAcl
-update principal:`.acl.principal$() from `.acl.grantResourceAcl
-update operation:`.acl.operation$() from `.acl.grantResourceAcl
-update resource:`.acl.resource$() from `.acl.denyResourceAcl
-update principal:`.acl.principal$() from `.acl.denyResourceAcl
-update operation:`.acl.operation$() from `.acl.denyResourceAcl
+.auth.loginInfo:([id:`symbol$()]user:`.auth.user$();hash:`symbol$();salt:`symbol$())
+.acl.userPrincipal:([]user:`.auth.user$();principal:`.acl.principal$())
+.acl.grantResourceAcl:([]resource:`.acl.resource$();principal:`.acl.principal$();operation:`.acl.operation$())
+.acl.denyResourceAcl:([]resource:`.acl.resource$();principal:`.acl.principal$();operation:`.acl.operation$())
 ```
 
 If the script above is copied and pasted at the 'q' prompt, an empty database will be fully defined.
