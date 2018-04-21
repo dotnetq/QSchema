@@ -159,4 +159,4 @@ Using the 'q' ```meta``` function will verify all the types and relationships.
 
 ## Next Steps
 
-To populate and retreive data from the tables from .net objects take a look at [Qapper](https://github.com/machonky/Qapper)
+To populate and retreive data from the tables from .net objects take a look at [Qapper](https://github.com/dotnetq/Qapper)
