@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/dotnetq/QSchema/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetq/QSchema</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Company>MacRobert.com</Company>
+    <Authors>Martin MacRobert (dev@macrobert.com)</Authors>
+    <Description>Create kdb schema directly from C# data models. Separate Schema attributes from main package to reduce coupling</Description>
+    <Version>1.0.8</Version>
+    <Copyright>macrobert.com</Copyright>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
+    <PackageReleaseNotes>Moved to DonetQ organization</PackageReleaseNotes>
+    <RootNamespace>DotnetQ.QSchema.Attributes</RootNamespace>
+  </PropertyGroup>
+
+</Project>

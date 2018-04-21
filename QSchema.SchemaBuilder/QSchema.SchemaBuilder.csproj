@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/dotnetq/QSchema/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dotnetq/QSchema</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Company>MacRobert.com</Company>
+    <Authors>Martin MacRobert (dev@macrobert.com)</Authors>
+    <Description>Create kdb schema directly from C# data models.</Description>
+    <Version>1.0.8</Version>
+    <Copyright>macrobert.com</Copyright>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
+    <PackageReleaseNotes>Moved to DonetQ organization</PackageReleaseNotes>
+    <RootNamespace>DotnetQ.QSchema</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="QSchema.Attributes" Version="1.0.8" />
+    <PackageReference Include="TopologicalSorting.netstandard" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QSchema.Attributes\QSchema.Attributes.csproj" />
+  </ItemGroup>
+
+</Project>
