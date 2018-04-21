@@ -1,30 +1,30 @@
-# qtools - .net Data Modelling tools for Q
-[![GitHub license](https://img.shields.io/badge/license-LGPL%20v3-blue.svg)](https://github.com/machonky/qtools/blob/master/LICENSE)
-[![Nuget](https://img.shields.io/nuget/v/QTools.svg)](https://www.nuget.org/packages/qtools)
-[![NuGet](https://img.shields.io/nuget/dt/QTools.svg)](https://www.nuget.org/packages/qtools)
-[![GitHub issues](https://img.shields.io/github/issues/machonky/Qtools.svg)](https://github.com/machonky/QTools/issues)
-[![GitHub forks](https://img.shields.io/github/forks/machonky/QTools.svg?style=social&label=Fork)](https://github.com/machonky/QTools/network)
-[![GitHub stars](https://img.shields.io/github/stars/machonky/QTools.svg?style=social&label=Star)](https://github.com/machonky/QTools/stargazers)
+# QSchema - .net Data Modelling tools for Q
+[![GitHub license](https://img.shields.io/badge/license-LGPL%20v3-blue.svg)](https://github.com/dotnetq/qschema/blob/master/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/QSchema.SchemaBuilder.svg)](https://www.nuget.org/packages/QSchema.SchemaBuilder)
+[![NuGet](https://img.shields.io/nuget/dt/QSchema.SchemaBuilder.svg)](https://www.nuget.org/packages/QSchema.SchemaBuilder)
+[![GitHub issues](https://img.shields.io/github/issues/dotnetq/qschema.svg)](https://github.com/dotnetq/qschema/issues)
+[![GitHub forks](https://img.shields.io/github/forks/dotnetq/qschema.svg?style=social&label=Fork)](https://github.com/dotnetq/qschema/network)
+[![GitHub stars](https://img.shields.io/github/stars/dotnetq/qschema.svg?style=social&label=Star)](https://github.com/dotnetq/qschema/stargazers)
 
 > ### DISCLAIMER
 > **IMPORTANT:** The current state of this toolkit is **PRE-ALPHA/Development**. Please consider it version a foundational version. Many areas could be improved and change significantly while refactoring current code and implementing new features. 
 
 ## Introduction
-QTools permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
+qschema permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
 
-A developer can rapidly develop and prototype an entire schema declaratively from the .net environment. Without QTools a developer must develop the schema twice - once in the .net environment and again in the kdb+ 'q' language.
+A developer can rapidly develop and prototype an entire schema declaratively from the .net environment. Without qschema a developer must develop the schema twice - once in the .net environment and again in the kdb+ 'q' language.
 
 ## Getting Started
-Install the [NuGet package](https://www.nuget.org/packages/qtools).
+Install the [NuGet package](https://www.nuget.org/packages/QSchema.SchemaBuilder).
 
 ## Basic Example
 
 We'll build a basic security model to restrict access to specific resources in our system.
 
-Next we'll create some classes to represent the authentication aspect of our security model. We'll be using some attributes declared in the ```QTools.Schema``` namespace to declare metadata of our property to our schema builder - as shown:
+Next we'll create some classes to represent the authentication aspect of our security model. We'll be using some attributes declared in the ```DotnetQ.QSchema.Attributes``` namespace to declare metadata of our property to our schema builder - as shown:
 
 ```cs
-using QTools.Schema;
+using DotnetQ.QSchema.Attributes;
 ```
 
 Note the attributes applied to properties of classes declared below.
@@ -130,6 +130,8 @@ var types = new[]
 After this we can supply the collection above to the schema builder which will generate the entire script for an empty kdb+ database including foreign key relationships.
 
 ```cs
+using DotnetQ.QSchema.SchemaBuilder;
+...
 string fullAclSchema = SchemaBuilder.DeclareEmptySchema(types);
 ```
 
