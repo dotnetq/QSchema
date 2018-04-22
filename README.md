@@ -10,7 +10,7 @@
 > **IMPORTANT:** The current state of this toolkit is **PRE-ALPHA/Development**. Please consider it version a foundational version. Many areas could be improved and change significantly while refactoring current code and implementing new features. 
 
 ## Introduction
-qschema permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
+QSchema permits a developer to annotate a C# data model to help automatically define table schema for use in the kdb+ database. 
 
 A developer can rapidly develop and prototype an entire schema declaratively from the .net environment. Without qschema a developer must develop the schema twice - once in the .net environment and again in the kdb+ 'q' language.
 
@@ -161,4 +161,4 @@ Using the 'q' ```meta``` function will verify all the types and relationships.
 
 ## Next Steps
 
-To populate and retreive data from the tables from .net objects take a look at [Qapper](https://github.com/dotnetq/Qapper)
+To populate and retrieve data from the tables from .net objects take a look at [Qapper](https://github.com/dotnetq/Qapper)
