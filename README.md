@@ -148,7 +148,7 @@ The variable ```fullAclSchema``` will contain a script in 'q' syntax for the emp
 .acl.denyResourceAcl:([]resource:`.acl.resource$();principal:`.acl.principal$();operation:`.acl.operation$())
 ```
 
-If the script above is copied and pasted at the 'q' prompt, an empty database will be fully defined.
+If the script above is input into a kdb+ session, an empty database will be fully defined, including foreign keys.
 
 ## Notes
 - Namespaces are preserved in lowercase. 
