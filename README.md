@@ -154,7 +154,7 @@ If the script above is copied and pasted at the 'q' prompt, an empty database wi
 - Namespaces are preserved in lowercase. 
 - Table names correspond to class names with a leading lowercase letter.
 - In the script above, the ```update``` statements establish the foreign key relationships.
-- Tables are declared in dependency order.
+- Tables are declared in dependency order. As long as table dependencies are directed and acyclic, a schema can be calculated.
 - Only simple foreign keys are supported
 
 Using the 'q' ```meta``` function will verify all the types and relationships.
