@@ -144,6 +144,20 @@ namespace DotnetQ.QSchema.Test
             Assert.That(() => { SchemaBuilder.DeclareEmptyTable(typeof(InvalidColumnNameTest)); }, 
                 Throws.InstanceOf<SchemaBuilder.InvalidColumnNameException>());
         }
+
+        public class Distinct {}
+
+        [TableName("avg")] public class ValidName { }
+
+        [Test]
+        public void TestInvalidTableName()
+        {
+            Assert.That(() => { SchemaBuilder.GetQTableName(typeof(Distinct)); },
+                Throws.InstanceOf<SchemaBuilder.InvalidTableNameException>());
+
+            Assert.That(() => { SchemaBuilder.GetQTableName(typeof(ValidName)); },
+                Throws.InstanceOf<SchemaBuilder.InvalidTableNameException>());
+        }
     }
 }
 

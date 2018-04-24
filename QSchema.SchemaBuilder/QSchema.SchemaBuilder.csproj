@@ -9,11 +9,11 @@
     <Company>MacRobert.com</Company>
     <Authors>Martin MacRobert (dev@macrobert.com)</Authors>
     <Description>Create kdb schema directly from C# data models.</Description>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Copyright>macrobert.com</Copyright>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
-    <FileVersion>1.0.8.0</FileVersion>
-    <PackageReleaseNotes>Moved to DonetQ organization</PackageReleaseNotes>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
+    <PackageReleaseNotes>Table, namespace overrides</PackageReleaseNotes>
     <RootNamespace>DotnetQ.QSchema</RootNamespace>
   </PropertyGroup>
 

@@ -88,6 +88,50 @@ namespace DotnetQ.QSchema
             return result;
         }
 
+        public class InvalidTableNameException : Exception
+        {
+            public InvalidTableNameException(string tableName, Type declaringType)
+                : base($"{declaringType}, will create an invalid table name - {tableName}.")
+            {
+                DeclaringType = declaringType;
+            }
+
+            public Type DeclaringType { get; }
+        }
+
+        private static string VerifyTableName(string overrideName, Type declaringType)
+        {
+            var overrideTableName = declaringType.GetCustomAttribute<TableNameAttribute>();
+            var result = overrideTableName != null ? overrideTableName.Name : LeadingLowercase(declaringType.Name);
+
+            if (reservedWords.Contains(result)) throw new InvalidTableNameException(result, declaringType);
+
+            return result;
+        }
+
+        public class InvalidDbNamespaceException : Exception
+        {
+            public InvalidDbNamespaceException(string dbNamespace, Type declaringType)
+                : base($"{declaringType}, will create an invalid namespace name - {dbNamespace}.")
+            {
+                DbNamespace = dbNamespace;
+                DeclaringType = declaringType;
+            }
+
+            public string DbNamespace { get; }
+            public Type DeclaringType { get; }
+        }
+
+        private static string VerifyDbNamespace(string dbNamespace, Type declaringType)
+        {
+            var overrideNamespace = declaringType.GetCustomAttribute<DbNamespaceAttribute>();
+            var result = overrideNamespace != null ? overrideNamespace.Name : (declaringType.Namespace.ToLower());
+
+            if (reservedWords.Contains(result)) throw new InvalidDbNamespaceException(result, declaringType);
+
+            return result;
+        }
+        
         private static readonly BindingFlags BindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
         public static string DeclareEmptySchema(Type[] schemaTypes)
@@ -212,8 +256,11 @@ namespace DotnetQ.QSchema
 
         public static string GetQTableName(Type t)
         {
-            var @namespace = t.Namespace.ToLower();
-            var tableName = LeadingLowercase(t.Name);
+            var overrideNamespace = t.GetCustomAttribute<DbNamespaceAttribute>();
+            var @namespace = VerifyDbNamespace(overrideNamespace!= null ? overrideNamespace.Name : t.Namespace.ToLower(), t);
+            // yes. We should tokenize the namespace and check the tokens...Later...
+            var overrideTableName = t.GetCustomAttribute<TableNameAttribute>();
+            var tableName = VerifyTableName(overrideTableName != null?overrideTableName.Name:LeadingLowercase(t.Name),t);
             return string.Concat(".", @namespace, ".", tableName);
         }
 
