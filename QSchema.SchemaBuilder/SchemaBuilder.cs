@@ -129,6 +129,11 @@ namespace DotnetQ.QSchema
 
             if (reservedWords.Contains(result)) throw new InvalidDbNamespaceException(result, declaringType);
 
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                result = string.Concat(".", result);
+            }
+
             return result;
         }
         
@@ -261,7 +266,7 @@ namespace DotnetQ.QSchema
             // yes. We should tokenize the namespace and check the tokens...Later...
             var overrideTableName = t.GetCustomAttribute<TableNameAttribute>();
             var tableName = VerifyTableName(overrideTableName != null?overrideTableName.Name:LeadingLowercase(t.Name),t);
-            return string.Concat(".", @namespace, ".", tableName);
+            return string.Concat(@namespace, (string.IsNullOrWhiteSpace(@namespace)?string.Empty:"."), tableName);
         }
 
         private static string LeadingLowercase(string s) => string.Concat(s[0].ToString().ToLower(), s.Substring(1));

@@ -9,11 +9,11 @@
     <Company>MacRobert.com</Company>
     <Authors>Martin MacRobert (dev@macrobert.com)</Authors>
     <Description>Create kdb schema directly from C# data models. Separate Schema attributes from main package to reduce coupling</Description>
-    <Version>1.0.9</Version>
+    <Version>1.0.10</Version>
     <Copyright>macrobert.com</Copyright>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
-    <FileVersion>1.0.9.0</FileVersion>
-    <PackageReleaseNotes>Table, namespace overrides</PackageReleaseNotes>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
+    <FileVersion>1.0.10.0</FileVersion>
+    <PackageReleaseNotes>Bugfix in root namespace tables</PackageReleaseNotes>
     <RootNamespace>DotnetQ.QSchema.Attributes</RootNamespace>
   </PropertyGroup>
 

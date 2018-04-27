@@ -158,6 +158,16 @@ namespace DotnetQ.QSchema.Test
             Assert.That(() => { SchemaBuilder.GetQTableName(typeof(ValidName)); },
                 Throws.InstanceOf<SchemaBuilder.InvalidTableNameException>());
         }
+
+        [DbNamespace()] public class RootTable { }
+        [DbNamespace("u")] public class NsTable { }
+
+        [Test]
+        public void TestTableNamespaces()
+        {
+            Assert.That(SchemaBuilder.GetQTableName(typeof(RootTable)), Is.EqualTo("rootTable"));
+            Assert.That(SchemaBuilder.GetQTableName(typeof(NsTable)), Is.EqualTo(".u.nsTable"));
+        }
     }
 }
 
